@@ -19,6 +19,6 @@ for i in range(len(alp)):
             v=''.join(re.split(pattern,v))
             print(v)
             #a=list(set(a))
-            with open("E:/VIT 2016/6th sem/sub/data/main.txt","a",encoding="utf-8") as f:
+            with open("E:/VIT 2016/6th sem/sub/Movie-Rename/data/main.txt","a",encoding="utf-8") as f:
                 f.write(v)
                 f.write("\n")

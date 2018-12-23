@@ -2,6 +2,7 @@ import os
 import requests,html5lib
 from bs4 import BeautifulSoup as bs
 import re
+from fake_useragent import UserAgent
 
 path = 'E:/MOVIES'
 #url="https://www.imdb.com"
@@ -23,7 +24,7 @@ b=a
 #print(a)
 d=[]
 #print(movie_folder)
-with open("E:/VIT 2016/6th sem/sub/data/main.txt","r",encoding="utf-8") as f:
+with open("E:/VIT 2016/6th sem/sub/Movie-Rename/data/main.txt","r",encoding="utf-8") as f:
     for line in f:
         line=line.replace('\n','')
         line=line.replace("&","and")
@@ -71,9 +72,42 @@ for name in range(len(b)):
 print(not_found)
 #print(b)
 #for x in range(len(d)):
-    
+''' FAKING USER AGENT FOR SCRAPPING FROM GOOGLE SEARCH'''
+ua=UserAgent()
+header = {'User-Agent' : str(ua.chrome)}
+#print(ua.chrome)
 #for movie_folder in a:
-#search="https://www.imdb.com/search/title?title="+movie_folder.replace(" ","+")
+#name=not_found[17]
+imdb=[]
+for ind in range(len(not_found)):
+    name=not_found[ind]
+    name=name.replace("&","and")
+    search="https://www.google.com/search?q="+name+"+imdb"
+    print(search)
+    try:
+        r=requests.get(search, headers=header)
+        soup=bs(r.content,'html5lib')
+        #print(soup.prettify())
+        link = soup.find("div",{"class":"g"})
+        #print(link)
+        x1=link.find("div",{"class":"r"})
+        #print(x1)
+        choice=x1.find("a")['href']
+        print(choice)
+        r1=requests.get(choice,headers=header)
+        soup_imdb=bs(r1.content,'html5lib')
+        box=soup_imdb.find("div",{"class":"title_wrapper"}).find("h1",{"class":""}).get_text(strip=True)
+        box=box.strip()
+        imdb.append(box)
+        print(box)
+        print(imdb)
+    except Exception:
+        pass
+print(imdb)
+''' with open("E:/VIT 2016/6th sem/sub/Movie-Rename/data/main.txt","a",encoding="utf-8") as f:
+        f.write(box)
+        f.write("\n")'''
+
 #print(search)
 #r=requests.get(search)
 #soup=bs(r.content,'html5lib')
