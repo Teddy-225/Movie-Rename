@@ -84,37 +84,37 @@ header = {'User-Agent' : str(ua.chrome)}
 #for movie_folder in a:
 #name=not_found[17]
 imdb=[]
+#print(not_found)
 for ind in range(len(not_found)):
     name=not_found[ind]
     #name=name.replace("&","and")
     search="https://www.google.com/search?q="+name+"+imdb"
     #print(search)
-    try:
-        r=requests.get(search, headers=header)
-        soup=bs(r.content,'html5lib')
-        #print(soup.prettify())
-        link = soup.find("div",{"class":"g"})
-        #print(link)
-        x1=link.find("div",{"class":"r"})
-        #print(x1)
-        choice=x1.find("a")['href']
-        #print(choice)
-        r1=requests.get(choice,headers=header)
-        soup_imdb=bs(r1.content,'html5lib')
-        box=soup_imdb.find("div",{"class":"title_wrapper"}).find("h1",{"class":""}).get_text(strip=True)
-        box=box.strip()
-        imdb.append(box)
-        print(box)
-        #print(imdb)
-        '''loc=os.path.abspath(path+'/'+name)
-        print(loc)
-        loc1=path+'/'+box
-        print(loc1)
-        os.rename(loc,loc1)'''
-    except Exception:
-        pass
+    r=requests.get(search, headers=header)
+    soup=bs(r.content,'html5lib')
+    #print(soup.prettify())
+    link = soup.find("div",{"class":"g"})
+    #print(link)
+    x1=link.find("div",{"class":"r"})
+    #print(x1)
+    choice=x1.find("a")['href']
+    #print(choice)
+    r1=requests.get(choice,headers=header)
+    soup_imdb=bs(r1.content,'html5lib')
+    box=soup_imdb.find("div",{"class":"title_wrapper"}).find("h1",{"class":""}).get_text(strip=True)
+    box=box.strip()
+    imdb.append(box)
+    #box1=box.replace(':','')
+    print(box)
+    #print(imdb)
+    lo=os.path.abspath(path+'/'+name)
+    print(lo)
+    loc1=os.path.abspath(path+'/'+box)
+    print(loc1)
+    #os.rename(lo,loc1)
+    #except Exception:
+     #   print('rename')
 print(imdb)
-for
 '''with open("E:/VIT 2016/6th sem/sub/Movie-Rename/data/main.txt","a",encoding="utf-8") as f:
     for box in imdb:
         f.write(box)
